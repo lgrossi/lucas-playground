@@ -17,7 +17,6 @@ class SlackApiPlugin implements PluginInterface
 
     public function run(): void
     {
-        // Set up your config and routing here and Parable handles the rest.
         $this->router->add(
             ['POST'],
             'slack-api',

@@ -7,14 +7,14 @@ use Parable\Http\ResponseDispatcher;
 
 class AbstractHandler implements HandlerInterface
 {
-    public function __construct(protected Object $event) {}
+    final public function __construct(protected Object $event) {}
 
     public function handle(): void
     {
         $this->reply('{}');
     }
 
-    protected function reply(string $responseBody): void
+    final protected function reply(string $responseBody): void
     {
         $dispatcher = new ResponseDispatcher();
         $dispatcher->dispatch(

@@ -6,23 +6,14 @@ use JetBrains\PhpStorm\Pure;
 
 class SlackEventHandlerFactory
 {
-    protected const PAYLOAD_EVENT_CALLBACK = "event_callback";
-    protected const PAYLOAD_URL_VERIFICATION = "url_verification";
-
-    /** @var string[] */
-    protected static array $allowedEventTypes = [
-        "message",
-        "workflow_step_execute"
-    ];
-
     #[Pure] public static function getSlackEventHandler(Object $event): AbstractHandler
     {
-        if (self::hasVerificationPayload($event)) {
+        if (self::isChallenge($event)) {
             return new VerificationHandler($event);
         }
 
-        if (self::hasEventPayload($event)) {
-            return new EventHandler($event);
+        if (self::isEventCallback($event)) {
+            return new EventCallbackHandler($event);
         }
 
         return new AbstractHandler($event);
@@ -37,26 +28,20 @@ class SlackEventHandlerFactory
     #[Pure] private static function isValidSlackEvent(Object $event): bool
     {
         return self::isSlackEvent($event)
-            && in_array($event->type, [self::PAYLOAD_EVENT_CALLBACK, self::PAYLOAD_URL_VERIFICATION]);
+            && in_array($event->type, [VerificationHandler::URL_VERIFICATION, EventCallbackHandler::EVENT_CALLBACK]);
     }
 
-    #[Pure] private static function hasEventPayload(Object $event): bool
+    #[Pure] private static function isEventCallback(Object $event): bool
     {
         return self::isValidSlackEvent($event)
             && property_exists($event, "event")
-            && property_exists($event->event, "type")
-            && in_array($event->event->type, self::$allowedEventTypes);
+            && property_exists($event->event, "type");
     }
 
-    #[Pure] private static function hasVerificationPayload(Object $event): bool
+    #[Pure] private static function isChallenge(Object $event): bool
     {
         return self::isSlackEvent($event)
-            && $event->type === self::PAYLOAD_URL_VERIFICATION
+            && $event->type === VerificationHandler::URL_VERIFICATION
             && property_exists($event, "challenge");
-    }
-
-    #[Pure] private static function getEventPayload(Object $event): ?string
-    {
-        return self::hasEventPayload($event) ? $event->event : null;
     }
 }
