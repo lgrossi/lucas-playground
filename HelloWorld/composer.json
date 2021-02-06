@@ -1,0 +1,19 @@
+{
+    "require": {
+        "parable-php/parable": "dev-master"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:parable-php/framework.git"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "HelloWorld\\": "src"
+        },
+        "files": [
+            "parable_init.php"
+        ]
+    }
+}
