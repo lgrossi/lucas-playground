@@ -9,18 +9,12 @@ RUN docker-php-ext-install pcntl
 
 WORKDIR /srv/
 
-# NOTE: The entrypoint "/start", which starts up NGINX and PHP-FPM,
-# is configured by creating a `.googleconfig/app_start.json` file with the
-# contents:
-#
-#     {"entrypointContents": "CUSTOM_ENTRYPOINT"}
-#
-# We configure it to use the `router.php` file included in this package.
-RUN mkdir .googleconfig && \
-    echo '{"entrypointContents": "cd public && php -S 0.0.0.0:8080"}' > .googleconfig/app_start.json
-
 COPY . ./
 
 RUN composer install
 
 RUN composer dump
+
+WORKDIR public
+
+ENTRYPOINT ["php", "-S", "0.0.0.0:8080"]
