@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld;
+namespace HelloWorld\Plugins;
 
 use Parable\Framework\Plugins\PluginInterface;
 use Parable\Routing\Router;
 
-class ExamplePlugin implements PluginInterface
+class HomepagePlugin implements PluginInterface
 {
     public function __construct(
         protected Router $router
