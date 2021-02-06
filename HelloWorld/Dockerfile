@@ -17,7 +17,7 @@ WORKDIR /srv/
 #
 # We configure it to use the `router.php` file included in this package.
 RUN mkdir .googleconfig && \
-    echo '{"entrypointContents": "cd public && php -S 0.0.0.0:51133"}' > .googleconfig/app_start.json
+    echo '{"entrypointContents": "cd public && php -S 0.0.0.0:8080"}' > .googleconfig/app_start.json
 
 COPY . ./
 
