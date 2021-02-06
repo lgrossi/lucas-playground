@@ -3,9 +3,12 @@
 namespace HelloWorld\Plugins;
 
 use Parable\Framework\Plugins\PluginInterface;
+use Parable\Http\RequestFactory;
+use Parable\Http\Response;
+use Parable\Http\ResponseDispatcher;
 use Parable\Routing\Router;
 
-class HomepagePlugin implements PluginInterface
+class SlackApiPlugin implements PluginInterface
 {
     public function __construct(
         protected Router $router
@@ -15,12 +18,21 @@ class HomepagePlugin implements PluginInterface
     {
         // Set up your config and routing here and Parable handles the rest.
         $this->router->add(
-            ['GET'],
-            'welcome',
-            '/',
+            ['POST'],
+            'slack-api',
+            '/slack-api',
             function () {
+                $request = RequestFactory::createFromServer();
+                $requestBody = json_decode($request->getBody());
+
+                $responseBody = sprintf(
+                    '{"challenge": "%s"}',
+                    $requestBody ? $requestBody->challenge : null
+                );
+
+                $dispatcher = new ResponseDispatcher();
+                $dispatcher->dispatch(new Response(200, $responseBody, 'application/json'));
             },
-            ['template' => 'src/welcome.phtml']
         );
     }
 }
