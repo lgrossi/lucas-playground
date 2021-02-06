@@ -1,7 +1,7 @@
 version: '3.4'
 services:
   playground:
-    build: .
+    build: ./HelloWorld/
     command: bash -c "cd public && php -S 0.0.0.0:51133"
     ports:
       - 51133:51133
