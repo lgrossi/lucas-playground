@@ -1,12 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers;
+namespace HelloWorld\Handlers\EventHandlers;
 
+use HelloWorld\Handlers\AbstractHandler;
 use JetBrains\PhpStorm\Pure;
 
 class EventCallbackHandler extends AbstractHandler
 {
     public const EVENT_CALLBACK = "event_callback";
+
+    final public function __construct(protected Object $event) {}
 
     public function handle(): void
     {

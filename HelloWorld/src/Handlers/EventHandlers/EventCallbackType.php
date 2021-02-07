@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers;
+namespace HelloWorld\Handlers\EventHandlers;
 
 use MyCLabs\Enum\Enum;
 
 /**
- * @method static Action APP_MENTION()
- * @method static Action MESSAGE()
- * @method static Action WORKFLOW_STEP_EXECUTE()
+ * @method static EventCallbackType APP_MENTION()
+ * @method static EventCallbackType MESSAGE()
+ * @method static EventCallbackType WORKFLOW_STEP_EXECUTE()
  */
 class EventCallbackType extends Enum
 {

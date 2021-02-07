@@ -4,6 +4,7 @@ namespace HelloWorld;
 
 use HelloWorld\Plugins\HomepagePlugin;
 use HelloWorld\Plugins\SlackApiPlugin;
+use HelloWorld\Plugins\SlackSlashCommandsPlugin;
 use Parable\Framework\Application;
 
 class Boot
@@ -20,6 +21,7 @@ class Boot
             Application::PLUGIN_BEFORE_BOOT => [
                 HomepagePlugin::class,
                 SlackApiPlugin::class,
+                SlackSlashCommandsPlugin::class
             ],
             Application::PLUGIN_AFTER_BOOT => [
             ],

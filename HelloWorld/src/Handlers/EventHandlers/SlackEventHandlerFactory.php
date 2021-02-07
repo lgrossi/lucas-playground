@@ -1,7 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers;
+namespace HelloWorld\Handlers\EventHandlers;
 
+use HelloWorld\Handlers\AbstractHandler;
 use JetBrains\PhpStorm\Pure;
 
 class SlackEventHandlerFactory
@@ -16,7 +17,7 @@ class SlackEventHandlerFactory
             return new EventCallbackHandler($event);
         }
 
-        return new AbstractHandler($event);
+        return new AbstractHandler();
     }
 
     #[Pure] private static function isSlackEvent(Object $event): bool
