@@ -16,4 +16,4 @@ RUN docker-php-ext-install pcntl
 # Execute composer
 RUN composer install && composer dump
 
-CMD ["/vendor/bin/parable", "server", "--public='public'", "--port=8080", "--host='0.0.0.0'"]
+ENTRYPOINT ["vendor/bin/parable", "server", "--public='public'", "--port=8080", "--host='0.0.0.0'"]

@@ -4,6 +4,7 @@ namespace HelloWorld\Clients;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use JetBrains\PhpStorm\Pure;
 
 class CloudFunctionClient
 {
@@ -13,7 +14,7 @@ class CloudFunctionClient
     public static function sendSlackMessage(string $message, string $channelId): void
     {
         (new Client())->postAsync(
-            getenv('CLOUD_FUNCTION_BASE_URI'),
+            self::getUri(),
             [
                 "json" => [
                     "type" => self::SLACK_MESSAGE,
@@ -28,7 +29,7 @@ class CloudFunctionClient
     {
         try {
             return (new Client())->post(
-                getenv('CLOUD_FUNCTION_BASE_URI'),
+                self::getUri(),
                 [
                     "json" => [
                         "type" => self::HERO_CHECK,
@@ -41,4 +42,10 @@ class CloudFunctionClient
             return $e->getMessage();
         }
     }
+
+    #[Pure] private static function getUri(): string
+    {
+        return getenv('CLOUD_FUNCTION_BASE_URI');
+    }
+
 }
