@@ -1,7 +1,9 @@
 {
     "require": {
         "parable-php/parable": "dev-master",
-        "google/cloud-functions-framework": "^0.1.0"
+        "google/cloud-functions-framework": "^0.1.0",
+        "guzzlehttp/guzzle": "^7.0",
+        "myclabs/php-enum": "^1.7"
     },
     "repositories": [
         {

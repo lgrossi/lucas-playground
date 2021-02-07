@@ -16,23 +16,34 @@ class EventCallbackHandler extends AbstractHandler
     #[Pure] private function getCallbackHandler(): string
     {
         return match ($this->event->event->type) {
+            EventCallbackType::APP_MENTION => $this->appMentionCallback(),
             EventCallbackType::MESSAGE => $this->messageCallback(),
             EventCallbackType::WORKFLOW_STEP_EXECUTE => $this->workflowStepExecuteCallback(),
             default => '{ "code": 400, "message": "Callback type not supported" }'
         };
     }
 
+    /**
+     * https://api.slack.com/events/message.channels
+     */
+    private function appMentionCallback(): string
+    {
+        return '{ "app_mention": true }';
+    }
+
+    /**
+     * https://api.slack.com/events/message.channels
+     */
     private function messageCallback(): string
     {
-        error_log("{$this->event->event->text}");
-        error_log("{$this->event->event->user}");
-        error_log("{$this->event->event->channel_type}");
         return '{ "message": true }';
     }
 
+    /**
+     * https://api.slack.com/events/workflow_step_execute
+     */
     private function workflowStepExecuteCallback(): string
     {
-        error_log("{$this->event->event->callback_id}");
         return '{ "workflow": true }';
     }
 }
