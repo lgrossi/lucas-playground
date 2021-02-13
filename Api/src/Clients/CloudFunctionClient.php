@@ -12,6 +12,7 @@ class CloudFunctionClient
 
     public static function sendSlackMessage(string $message, string $channelId): void
     {
+        error_log(self::getUri());
         (new Client())->postAsync(
             self::getUri(),
             [
