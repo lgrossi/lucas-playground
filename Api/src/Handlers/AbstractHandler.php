@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers;
+namespace Api\Handlers;
 
 use Parable\Http\Response;
 use Parable\Http\ResponseDispatcher;

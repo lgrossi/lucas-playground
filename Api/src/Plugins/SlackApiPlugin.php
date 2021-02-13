@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Plugins;
+namespace Api\Plugins;
 
-use HelloWorld\Handlers\CommandHandlers\CheckHeroHandler;
-use HelloWorld\Handlers\EventHandlers\SlackEventHandlerFactory;
+use Api\Handlers\CommandHandlers\CheckHeroHandler;
+use Api\Handlers\EventHandlers\SlackEventHandlerFactory;
 use Parable\Framework\Plugins\PluginInterface;
 use Parable\Http\RequestFactory;
 use Parable\Routing\Router;

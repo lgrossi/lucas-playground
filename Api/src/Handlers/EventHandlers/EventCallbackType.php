@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers\EventHandlers;
+namespace Api\Handlers\EventHandlers;
 
 use MyCLabs\Enum\Enum;
 

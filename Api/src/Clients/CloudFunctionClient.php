@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Clients;
+namespace Api\Clients;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;

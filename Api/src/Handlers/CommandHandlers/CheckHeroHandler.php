@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers\CommandHandlers;
+namespace Api\Handlers\CommandHandlers;
 
-use HelloWorld\Clients\CloudFunctionClient;
-use HelloWorld\Handlers\AbstractHandler;
+use Api\Clients\CloudFunctionClient;
+use Api\Handlers\AbstractHandler;
 
 class CheckHeroHandler extends AbstractHandler
 {

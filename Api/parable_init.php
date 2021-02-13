@@ -11,7 +11,7 @@
  */
 
 use Parable\Framework\Plugins\PluginManager;
-use HelloWorld\Boot;
+use Api\Boot;
 
 foreach (Boot::getPluginsToRegister() as $trigger => $pluginClassNames) {
     foreach ($pluginClassNames as $pluginClassName) {

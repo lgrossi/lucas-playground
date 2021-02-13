@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Plugins;
+namespace Api\Plugins;
 
 use Parable\Framework\Plugins\PluginInterface;
 use Parable\Routing\Router;

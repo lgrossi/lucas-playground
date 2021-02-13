@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld;
+namespace Api;
 
-use HelloWorld\Plugins\HomepagePlugin;
-use HelloWorld\Plugins\SlackApiPlugin;
-use HelloWorld\Plugins\SlackSlashCommandsPlugin;
+use Api\Plugins\HomepagePlugin;
+use Api\Plugins\SlackApiPlugin;
+use Api\Plugins\SlackSlashCommandsPlugin;
 use Parable\Framework\Application;
 
 class Boot

@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace HelloWorld\Handlers\EventHandlers;
+namespace Api\Handlers\EventHandlers;
 
-use HelloWorld\Handlers\AbstractHandler;
+use Api\Handlers\AbstractHandler;
 use JetBrains\PhpStorm\Pure;
 
 class EventCallbackHandler extends AbstractHandler
