@@ -11,7 +11,7 @@ class CheckHeroHandler extends AbstractCommandHandler
 
     protected ?string $channelId = "UVBEZQ3JT";
 
-    private static array $nameToSlackUserIdMap = [
+    public static array $nameToSlackUserIdMap = [
         "Bart" => "U9P2A158B",
         "Daniel" => "U9UENQYHL",
         "James" => "UL5RE884D",

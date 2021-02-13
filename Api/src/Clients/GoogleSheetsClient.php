@@ -2,6 +2,9 @@
 
 namespace Api\Clients;
 
+use Api\Handlers\CommandHandlers\CheckHeroHandler;
+use JetBrains\PhpStorm\Pure;
+
 class GoogleSheetsClient
 {
     public static function getHeroes(): array
@@ -10,11 +13,17 @@ class GoogleSheetsClient
         $client->setApplicationName('Google Sheets and PHP');
         $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
         $client->setAccessType('offline');
-        $client->setAuthConfig(__DIR__ . '/../../credentials.json');
+
+        $client->setAuthConfig(self::getCredentials());
 
         $service = new \Google_Service_Sheets($client);
+
+        $rowMin = 6;
+        $rowMax = $rowMin + count(CheckHeroHandler::$nameToSlackUserIdMap) - 1;
         $column = self::getColumn();
-        $ranges = [date('m/Y') . "!{$column}6:{$column}17", date('m/Y') . "!A6:A17"];
+
+
+        $ranges = [date('m/Y') . "!{$column}{$rowMin}:{$column}{$rowMax}", date('m/Y') . "!A${rowMin}:A${rowMax}"];
         $response = $service->spreadsheets_values->batchGet('18ELe2dGmaj49TCdxJb--zHwgeRwIEN4muOWfq59kTec', ["ranges" => $ranges]);
 
         $heroes = ["H" => null, "B" => null];
@@ -45,5 +54,10 @@ class GoogleSheetsClient
 
         $offset = max(ceil(($day - $initialOffset) / $lettersCount) - 1, 0);
         return $alphabet[$offset] . $alphabet[$day - $initialOffset - ($lettersCount * $offset)];
+    }
+
+    #[Pure] private static function getCredentials(): array
+    {
+        return json_decode(getenv('SERVICE_ACCOUNT'), true);
     }
 }
