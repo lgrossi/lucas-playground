@@ -46,8 +46,6 @@ class GoogleSheetsClient
         $initialOffset = $lettersCount - $base;
         $alphabet = range('A', 'Z');
 
-        $day = 15;
-
         if ((int)$day < $initialOffset) {
             return $alphabet[$base + (int)$day];
         }
