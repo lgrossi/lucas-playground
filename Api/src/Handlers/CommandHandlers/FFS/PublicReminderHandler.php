@@ -1,11 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace Api\Handlers\CommandHandlers;
+namespace Api\Handlers\CommandHandlers\FFS;
 
-use Api\Handlers\CommandHandlers\Traits\WeekdaysOnlyTrait;
+use Api\Handlers\CommandHandlers\AbstractCommandHandler;
+use Api\Handlers\CommandHandlers\FFS\Traits\TeamFinancialServicesTrait;
+use Api\Handlers\CommandHandlers\FFS\Traits\WeekdaysOnlyTrait;
 
 class PublicReminderHandler extends AbstractCommandHandler
 {
+    use TeamFinancialServicesTrait;
     use WeekdaysOnlyTrait;
 
     final protected function buildResponse(): string
@@ -21,6 +24,6 @@ class PublicReminderHandler extends AbstractCommandHandler
     protected function getChannelId(): string
     {
         /* fin-services-public */
-        return "C9JJSRXLY";
+        return "UVBEZQ3JT";
     }
 }

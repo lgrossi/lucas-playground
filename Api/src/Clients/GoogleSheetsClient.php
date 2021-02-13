@@ -2,7 +2,7 @@
 
 namespace Api\Clients;
 
-use Api\Handlers\CommandHandlers\CheckHeroHandler;
+use Api\Handlers\CommandHandlers\FFS\CheckHeroHandler;
 use JetBrains\PhpStorm\Pure;
 
 class GoogleSheetsClient
@@ -41,7 +41,7 @@ class GoogleSheetsClient
     }
 
     private static function getColumn(int $base = 1) {
-        $day = date('d');
+        $day = 15;//date('d');
         $lettersCount = 26;
         $initialOffset = $lettersCount - $base;
         $alphabet = range('A', 'Z');

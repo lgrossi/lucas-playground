@@ -2,7 +2,6 @@
 
 namespace Api\Plugins;
 
-use Api\Handlers\CommandHandlers\CheckHeroHandler;
 use Api\Handlers\EventHandlers\SlackEventHandlerFactory;
 use Parable\Framework\Plugins\PluginInterface;
 use Parable\Http\RequestFactory;

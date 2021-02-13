@@ -2,15 +2,14 @@
 
 namespace Api\Plugins;
 
-use Api\Clients\GoogleSheetsClient;
 use Api\Handlers\CommandHandlers\AbstractCommandHandler;
-use Api\Handlers\CommandHandlers\CheckHeroHandler;
-use Api\Handlers\CommandHandlers\PublicReminderHandler;
+use Api\Handlers\CommandHandlers\FFS\CheckHeroHandler;
+use Api\Handlers\CommandHandlers\FFS\PublicReminderHandler;
 use Parable\Framework\Plugins\PluginInterface;
 use Parable\Http\RequestFactory;
 use Parable\Routing\Router;
 
-class SlackSlashCommandsPlugin implements PluginInterface
+class FFSPlugin implements PluginInterface
 {
     public function __construct(
         protected Router $router
@@ -20,16 +19,16 @@ class SlackSlashCommandsPlugin implements PluginInterface
     {
         $this->router->add(
             ['POST'],
-            'slack-check-hero',
-            '/slack/check-hero',
-            [SlackSlashCommandsPlugin::class, "checkHero"]
+            'ffs-check-hero',
+            '/ffs/check-hero',
+            [FFSPlugin::class, "checkHero"]
         );
 
         $this->router->add(
             ['POST'],
-            'slack-public-reminder',
-            '/slack/public-reminder',
-            [SlackSlashCommandsPlugin::class, "publicReminder"]
+            'ffs-public-reminder',
+            '/ffs/public-reminder',
+            [FFSPlugin::class, "publicReminder"]
         );
     }
 

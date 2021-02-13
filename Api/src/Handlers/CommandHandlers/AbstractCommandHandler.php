@@ -19,8 +19,12 @@ abstract class AbstractCommandHandler extends AbstractHandler
 
         $message = $this->buildResponse();
 
-        if ($this->getProperty("notify") === true && $this->getChannelId()) {
-            CloudFunctionClient::sendSlackMessage($message, $this->getChannelId());
+        if ($this->getProperty("notify") === true) {
+            CloudFunctionClient::sendSlackMessage(
+                $message,
+                $this->getChannelId(),
+                $this->getTeamId()
+            );
         }
 
         $this->reply($message);
@@ -44,4 +48,6 @@ abstract class AbstractCommandHandler extends AbstractHandler
     abstract protected function buildResponse(): string;
 
     abstract protected function getChannelId(): string;
+
+    abstract protected function getTeamId(): string;
 }

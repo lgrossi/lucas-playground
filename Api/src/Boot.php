@@ -4,7 +4,7 @@ namespace Api;
 
 use Api\Plugins\HomepagePlugin;
 use Api\Plugins\SlackApiPlugin;
-use Api\Plugins\SlackSlashCommandsPlugin;
+use Api\Plugins\FFSPlugin;
 use Parable\Framework\Application;
 
 class Boot
@@ -21,7 +21,7 @@ class Boot
             Application::PLUGIN_BEFORE_BOOT => [
                 HomepagePlugin::class,
                 SlackApiPlugin::class,
-                SlackSlashCommandsPlugin::class
+                FFSPlugin::class
             ],
             Application::PLUGIN_AFTER_BOOT => [
             ],

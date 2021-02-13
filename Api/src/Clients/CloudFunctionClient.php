@@ -8,18 +8,16 @@ use JetBrains\PhpStorm\Pure;
 
 class CloudFunctionClient
 {
-    private const SLACK_MESSAGE = "slack-message";
-
-    public static function sendSlackMessage(string $message, string $channelId): void
+    public static function sendSlackMessage(string $message, string $channelId, string $teamId): void
     {
         try {
             (new Client())->post(
                 self::getUri(),
                 [
                     "json" => [
-                        "type" => self::SLACK_MESSAGE,
                         "message" => $message,
-                        "channel_id" => $channelId
+                        "channel_id" => $channelId,
+                        "team_id" => $teamId
                     ]
                 ]
             )->getBody()->getContents();

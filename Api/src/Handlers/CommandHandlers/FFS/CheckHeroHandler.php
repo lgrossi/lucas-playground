@@ -1,12 +1,15 @@
 <?php declare(strict_types=1);
 
-namespace Api\Handlers\CommandHandlers;
+namespace Api\Handlers\CommandHandlers\FFS;
 
 use Api\Clients\GoogleSheetsClient;
-use Api\Handlers\CommandHandlers\Traits\WeekdaysOnlyTrait;
+use Api\Handlers\CommandHandlers\AbstractCommandHandler;
+use Api\Handlers\CommandHandlers\FFS\Traits\TeamFinancialServicesTrait;
+use Api\Handlers\CommandHandlers\FFS\Traits\WeekdaysOnlyTrait;
 
 class CheckHeroHandler extends AbstractCommandHandler
 {
+    use TeamFinancialServicesTrait;
     use WeekdaysOnlyTrait;
 
     private static string $cachePath = __DIR__ . '/heroes-cache.json';
@@ -52,7 +55,7 @@ class CheckHeroHandler extends AbstractCommandHandler
     protected function getChannelId(): string
     {
         /* ffs-reporter-triage */
-        return "G01FSPV6C7N";
+        return "UVBEZQ3JT";
     }
 
     private function getHeroes(): array
