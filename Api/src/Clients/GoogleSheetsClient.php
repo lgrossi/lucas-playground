@@ -7,24 +7,44 @@ use JetBrains\PhpStorm\Pure;
 
 class GoogleSheetsClient
 {
-    public static function getHeroes(): array
+    public static function loadFFSHeroes(): array
     {
-        $client = new \Google_Client();
-        $client->setApplicationName('Google Sheets and PHP');
-        $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
-        $client->setAccessType('offline');
-
-        $client->setAuthConfig(self::getCredentials());
-
-        $service = new \Google_Service_Sheets($client);
-
         $rowMin = 6;
+        $ffsSheetId = '18ELe2dGmaj49TCdxJb--zHwgeRwIEN4muOWfq59kTec';
         $rowMax = $rowMin + count(CheckHeroHandler::$nameToSlackUserIdMap) - 1;
-        $column = self::getColumn();
 
+        /*
+         * Transforms day to spreadsheet column index
+         * 1 -> C
+         * 2 -> D
+         * ...
+         * 24 -> Z
+         * 25 -> AA
+         * ...
+         * 31 -> AG
+         * */
+        $column = (function ()  {
+            $base = 1;
+            $day = date('d');
+            $lettersCount = 26;
+            $initialOffset = $lettersCount - $base;
+            $alphabet = range('A', 'Z');
 
+            if ((int)$day < $initialOffset) {
+                return $alphabet[$base + (int)$day];
+            }
+
+            $offset = max(ceil(($day - $initialOffset) / $lettersCount) - 1, 0);
+            return $alphabet[$offset] . $alphabet[$day - $initialOffset - ($lettersCount * $offset)];
+        })();
+
+        /*
+         * Loads names column (sheetTitle!A{min}:A{max}) and day column (sheetTitle!{$column}{$min}:{$column}{$max})
+         * sheetTitle = month/Year (e.g. 02/2021)
+         */
         $ranges = [date('m/Y') . "!{$column}{$rowMin}:{$column}{$rowMax}", date('m/Y') . "!A${rowMin}:A${rowMax}"];
-        $response = $service->spreadsheets_values->batchGet('18ELe2dGmaj49TCdxJb--zHwgeRwIEN4muOWfq59kTec', ["ranges" => $ranges]);
+
+        $response = self::getService()->spreadsheets_values->batchGet($ffsSheetId, ["ranges" => $ranges]);
 
         $heroes = ["H" => null, "B" => null];
         foreach ($response->getValueRanges()[0] as $index => $row) {
@@ -40,21 +60,19 @@ class GoogleSheetsClient
         return $heroes;
     }
 
-    private static function getColumn(int $base = 1) {
-        $day = 15;//date('d');
-        $lettersCount = 26;
-        $initialOffset = $lettersCount - $base;
-        $alphabet = range('A', 'Z');
+    private static function getService(): \Google_Service_Sheets
+    {
+        $client = new \Google_Client();
+        $client->setApplicationName('Google Sheets and PHP');
+        $client->setScopes([\Google_Service_Sheets::SPREADSHEETS]);
+        $client->setAccessType('offline');
 
-        if ((int)$day < $initialOffset) {
-            return $alphabet[$base + (int)$day];
-        }
+        $client->setAuthConfig(self::getCredentials());
 
-        $offset = max(ceil(($day - $initialOffset) / $lettersCount) - 1, 0);
-        return $alphabet[$offset] . $alphabet[$day - $initialOffset - ($lettersCount * $offset)];
+        return new \Google_Service_Sheets($client);
     }
 
-    #[Pure] private static function getCredentials(): array
+    private static function getCredentials(): array
     {
         return json_decode(getenv('SERVICE_ACCOUNT'), true);
     }

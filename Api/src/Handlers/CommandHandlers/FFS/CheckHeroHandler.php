@@ -35,7 +35,7 @@ class CheckHeroHandler extends AbstractCommandHandler
 
         $message = "*Daily Support Hero Rotation*";
         if (!$hero && !$backup) {
-            $message .= "\n\n:superman: *I couldn't find the hero today, can someone help me, please?*";
+            $message .= "\n\n:intense: *I couldn't find the hero today, can someone help me, please?*";
         } else {
             $message .= "\n\n:superman: <@" . self::$nameToSlackUserIdMap[$hero] . ">";
             $message .= $backup ? "\n:back_away: <@" . self::$nameToSlackUserIdMap[$backup] . ">" : "";
@@ -55,14 +55,14 @@ class CheckHeroHandler extends AbstractCommandHandler
     protected function getChannelId(): string
     {
         /* ffs-reporter-triage */
-        return "UVBEZQ3JT";
+        return "G01FSPV6C7N";
     }
 
     private function getHeroes(): array
     {
         $heroes = $this->getCachedHeroes();
         if (!$heroes) {
-            $heroes = GoogleSheetsClient::getHeroes();
+            $heroes = GoogleSheetsClient::loadFFSHeroes();
             $this->cacheHeroes($heroes);
         }
         return $heroes;
