@@ -20,7 +20,6 @@ abstract class AbstractCommandHandler extends AbstractHandler
         $message = $this->buildResponse();
 
         if ($this->getProperty("notify") === true && $this->getChannelId()) {
-            error_log($this->getChannelId());
             CloudFunctionClient::sendSlackMessage($message, $this->getChannelId());
         }
 

@@ -20,6 +20,7 @@ class PublicReminderHandler extends AbstractCommandHandler
 
     protected function getChannelId(): string
     {
-        return "UVBEZQ3JT";
+        /* fin-services-public */
+        return "C9JJSRXLY";
     }
 }

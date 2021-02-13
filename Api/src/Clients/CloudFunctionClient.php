@@ -13,7 +13,7 @@ class CloudFunctionClient
     public static function sendSlackMessage(string $message, string $channelId): void
     {
         try {
-            error_log((new Client())->post(
+            (new Client())->post(
                 self::getUri(),
                 [
                     "json" => [
@@ -22,7 +22,7 @@ class CloudFunctionClient
                         "channel_id" => $channelId
                     ]
                 ]
-            )->getBody()->getContents());
+            )->getBody()->getContents();
         } catch (GuzzleException $e) {
             error_log($e);
         }

@@ -49,6 +49,7 @@ class CheckHeroHandler extends AbstractCommandHandler
 
     protected function getChannelId(): string
     {
-        return "UVBEZQ3JT";
+        /* ffs-reporter-triage */
+        return "G01FSPV6C7N";
     }
 }
