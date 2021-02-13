@@ -9,6 +9,8 @@ class CheckHeroHandler extends AbstractCommandHandler
 {
     use WeekdaysOnlyTrait;
 
+    private static string $cachePath = __DIR__ . '/heroes-cache.json';
+
     public static array $nameToSlackUserIdMap = [
         "Bart" => "U9P2A158B",
         "Daniel" => "U9UENQYHL",
@@ -26,7 +28,7 @@ class CheckHeroHandler extends AbstractCommandHandler
 
     final protected function buildResponse(): string
     {
-        ["H" => $hero, "B" => $backup] = GoogleSheetsClient::getHeroes();
+        ["H" => $hero, "B" => $backup] = $this->getHeroes();
 
         $message = "*Daily Support Hero Rotation*";
         if (!$hero && !$backup) {
@@ -51,5 +53,36 @@ class CheckHeroHandler extends AbstractCommandHandler
     {
         /* ffs-reporter-triage */
         return "G01FSPV6C7N";
+    }
+
+    private function getHeroes(): array
+    {
+        $heroes = $this->getCachedHeroes();
+        if (!$heroes) {
+            $heroes = GoogleSheetsClient::getHeroes();
+            $this->cacheHeroes($heroes);
+        }
+        return $heroes;
+    }
+
+    private function getCachedHeroes(): ?array
+    {
+        if ($cacheFile = file_get_contents(self::$cachePath)) {
+            $cached = explode(",", $cacheFile);
+            $cacheDate = new \DateTime("@" . $cached[0]);
+
+            if (date('d') === $cacheDate->format('d')) {
+                return ["H" => $cached[1], "B" => $cached[2]];
+            }
+        }
+
+        return null;
+    }
+
+    private function cacheHeroes(array $heroes): void
+    {
+        ["H" => $hero, "B" => $backup] = $heroes;
+        $timestamp = (new \DateTime())->getTimestamp();
+        file_put_contents(self::$cachePath, "{$timestamp},{$hero},{$backup}");
     }
 }
