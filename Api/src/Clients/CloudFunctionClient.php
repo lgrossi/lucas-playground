@@ -12,17 +12,20 @@ class CloudFunctionClient
 
     public static function sendSlackMessage(string $message, string $channelId): void
     {
-        error_log(self::getUri());
-        (new Client())->postAsync(
-            self::getUri(),
-            [
-                "json" => [
-                    "type" => self::SLACK_MESSAGE,
-                    "message" => $message,
-                    "channel_id" => $channelId
+        try {
+            error_log((new Client())->post(
+                self::getUri(),
+                [
+                    "json" => [
+                        "type" => self::SLACK_MESSAGE,
+                        "message" => $message,
+                        "channel_id" => $channelId
+                    ]
                 ]
-            ]
-        );
+            )->getBody()->getContents());
+        } catch (GuzzleException $e) {
+            error_log($e);
+        }
     }
 
     #[Pure] private static function getUri(): string
