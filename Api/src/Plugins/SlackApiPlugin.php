@@ -27,9 +27,7 @@ class SlackApiPlugin implements PluginInterface
     public static function processSlackEvent(): void
     {
         $request = RequestFactory::createFromServer();
-        if ($request->getBody()) {
-            $event = json_decode($request->getBody());
-            SlackEventHandlerFactory::getSlackEventHandler($event)->handle();
-        }
+        $event = json_decode($request->getBody());
+        SlackEventHandlerFactory::getSlackEventHandler($event)->handle();
     }
 }
