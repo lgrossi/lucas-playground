@@ -10,8 +10,6 @@ abstract class AbstractCommandHandler extends AbstractHandler
 {
     final public function __construct(protected Object $params) {}
 
-    protected ?string $channelId = null;
-
     public function handle(): void
     {
         if (!$this->validate()) {
@@ -20,9 +18,9 @@ abstract class AbstractCommandHandler extends AbstractHandler
 
         $message = $this->buildResponse();
 
-        if ($this->params->notify === true && $this->channelId) {
-            error_log($this->channelId);
-            CloudFunctionClient::sendSlackMessage($message, $this->channelId);
+        if ($this->params->notify === true && $this->getChannelId()) {
+            error_log($this->getChannelId());
+            CloudFunctionClient::sendSlackMessage($message, $this->getChannelId());
         }
 
         $this->reply($message);
@@ -31,4 +29,6 @@ abstract class AbstractCommandHandler extends AbstractHandler
     abstract protected function validate(): bool;
 
     abstract protected function buildResponse(): string;
+
+    abstract protected function getChannelId(): string;
 }

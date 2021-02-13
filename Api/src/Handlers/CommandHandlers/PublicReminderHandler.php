@@ -8,8 +8,6 @@ class PublicReminderHandler extends AbstractCommandHandler
 {
     use WeekdaysOnlyTrait;
 
-    protected ?string $channelId = "UVBEZQ3JT";
-
     final protected function buildResponse(): string
     {
         $message = "Morning all, just a quick reminder:";
@@ -18,5 +16,10 @@ class PublicReminderHandler extends AbstractCommandHandler
         $message .= "\n\nThank you and have a great day!";
 
         return $message;
+    }
+
+    protected function getChannelId(): string
+    {
+        return "UVBEZQ3JT";
     }
 }

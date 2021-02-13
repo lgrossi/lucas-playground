@@ -9,8 +9,6 @@ class CheckHeroHandler extends AbstractCommandHandler
 {
     use WeekdaysOnlyTrait;
 
-    protected ?string $channelId = "UVBEZQ3JT";
-
     public static array $nameToSlackUserIdMap = [
         "Bart" => "U9P2A158B",
         "Daniel" => "U9UENQYHL",
@@ -47,5 +45,10 @@ class CheckHeroHandler extends AbstractCommandHandler
         $message .= "\n\n*Thank you for your help and have a great day!*";
 
         return $message;
+    }
+
+    protected function getChannelId(): string
+    {
+        return "UVBEZQ3JT";
     }
 }
