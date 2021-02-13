@@ -9,7 +9,7 @@ trait WeekdaysOnlyTrait
     #[Pure] final protected function validate(): bool
     {
         if (date('N') > 5) {
-            $this->reply("Heroes don't work on weekends baby!");
+            $this->reply(":nono: *Heroes don't work on weekends baby!*");
             return false;
         }
         return true;
