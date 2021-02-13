@@ -3,6 +3,7 @@
 namespace Api\Plugins;
 
 use Api\Clients\GoogleSheetsClient;
+use Api\Handlers\CommandHandlers\AbstractCommandHandler;
 use Api\Handlers\CommandHandlers\CheckHeroHandler;
 use Api\Handlers\CommandHandlers\PublicReminderHandler;
 use Parable\Framework\Plugins\PluginInterface;
@@ -34,13 +35,18 @@ class SlackSlashCommandsPlugin implements PluginInterface
 
     public static function checkHero(): void
     {
-        $params = json_decode(RequestFactory::createFromServer()->getBody());
-        (new CheckHeroHandler($params))->handle();
+        self::handleCommand(new CheckHeroHandler());
     }
 
     public static function publicReminder(): void
     {
-        $params = json_decode(RequestFactory::createFromServer()->getBody());
-        (new PublicReminderHandler($params))->handle();
+        self::handleCommand(new PublicReminderHandler());
+    }
+
+    private static function handleCommand(AbstractCommandHandler $handler): void
+    {
+        $body = RequestFactory::createFromServer()->getBody();
+        $handler->setParams($body ? json_decode($body) : null);
+        $handler->handle();
     }
 }

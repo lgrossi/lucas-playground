@@ -5,10 +5,11 @@ namespace Api\Handlers\CommandHandlers;
 use Api\Clients\CloudFunctionClient;
 use Api\Clients\GoogleSheetsClient;
 use Api\Handlers\AbstractHandler;
+use JetBrains\PhpStorm\Pure;
 
 abstract class AbstractCommandHandler extends AbstractHandler
 {
-    final public function __construct(protected Object $params) {}
+    private ?Object $params;
 
     public function handle(): void
     {
@@ -18,12 +19,25 @@ abstract class AbstractCommandHandler extends AbstractHandler
 
         $message = $this->buildResponse();
 
-        if ($this->params->notify === true && $this->getChannelId()) {
+        if ($this->getProperty("notify") === true && $this->getChannelId()) {
             error_log($this->getChannelId());
             CloudFunctionClient::sendSlackMessage($message, $this->getChannelId());
         }
 
         $this->reply($message);
+    }
+
+    public function setParams(?Object $params): void
+    {
+        $this->params = $params;
+    }
+
+    #[Pure] protected function getProperty(string $property)
+    {
+        if (!$this->params || !property_exists($this->params, $property)) {
+            return null;
+        }
+        return $this->params->{$property};
     }
 
     abstract protected function validate(): bool;
