@@ -1,6 +1,6 @@
 version: '3.4'
 services:
-  playground:
+  api:
     build: ./Api/
     command: bash -c "cd public && php -S 0.0.0.0:8080"
     ports:
